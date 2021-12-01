@@ -1,17 +1,15 @@
 package common
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Headers
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import java.io.File
-import java.time.LocalDateTime
 import kotlin.system.exitProcess
 
 class InputRepo(
     private val sessionCookie: String,
-    private val year: Int = LocalDateTime.now().year,
+    private val year: Int = 2021, //LocalDateTime.now().year,
 ) {
     fun get(day: Int): List<String> {
         val file = File("input/$year-$day.txt")
@@ -48,13 +46,13 @@ class InputRepo(
         when (result) {
             is Result.Success -> return result.get().trim()
             is Result.Failure -> {
-                printError(day, response, result)
+                printError(day, response)
                 exitProcess(1)
             }
         }
     }
 
-    private fun printError(day: Int, response: Response, result: Result.Failure<FuelError>) {
+    private fun printError(day: Int, response: Response) {
         println("\nError downloading the input for $year day $day. ${response.statusCode}: ${response.responseMessage}")
         when (response.statusCode) {
             404 -> println("Did you wake up too early?")
