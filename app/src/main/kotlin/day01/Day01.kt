@@ -13,9 +13,12 @@ fun main(args: Array<String>) {
 
 
 fun solveDay01Part1(input: List<String>): Int {
-    TODO()
+    return input
+        .map(String::toInt)
+        .zipWithNext()
+        .count { pair -> pair.second > pair.first }
 }
 
 fun solveDay01Part2(input: List<String>): Int {
-    TODO()
+    return 0
 }
