@@ -6,12 +6,16 @@ import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
 
-    val day: Int = try { System.getProperty("day").toInt() } catch (_: Exception) {
+    val day: Int = try {
+        System.getProperty("day").toInt()
+    } catch (_: Exception) {
         println("Please specify which day should be executed by adding '-Dday=1' to your run command.")
         exitProcess(1)
     }
 
-    val sessionCookie: String = try { System.getProperty("sessionCookie") } catch (_: Exception) {
+    val sessionCookie: String = try {
+        System.getProperty("sessionCookie")
+    } catch (_: Exception) {
         println("Please set the session cookie in the gradle.properties file or by adding '-DsessionCookie=yourCookie' to your run command.")
         exitProcess(1)
     }
