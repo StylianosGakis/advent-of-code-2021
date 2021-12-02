@@ -20,5 +20,9 @@ fun solveDay01Part1(input: List<String>): Int {
 }
 
 fun solveDay01Part2(input: List<String>): Int {
-    return 0
+    return input
+        .map(String::toInt)
+        .windowed(size = 3, transform = List<Int>::sum)
+        .zipWithNext()
+        .count { pair -> pair.second > pair.first }
 }
