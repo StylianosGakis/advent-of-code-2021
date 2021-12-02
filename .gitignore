@@ -14,3 +14,6 @@ app/input
 
 # IntelliJ
 .idea/
+
+# Run configurations
+/.idea/runConfigurations/
