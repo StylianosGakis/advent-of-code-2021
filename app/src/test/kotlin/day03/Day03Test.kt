@@ -61,5 +61,17 @@ class Day03Test : FreeSpec({
 
             actual shouldBe expectedResult
         }
+
+        "bitList converts to decimal" {
+            val list = object : Rate {
+                override val bitList: BitList
+                    get() = listOf(1, 0, 1, 0, 1)
+            }
+            val expectedResult = 16 + 4 + 0 + 1
+
+            val actual = list.toDecimalNumber()
+
+            actual shouldBe expectedResult
+        }
     }
 })

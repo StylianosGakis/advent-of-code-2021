@@ -37,8 +37,18 @@ fun BitList.flipBits(): BitList {
     }
 }
 
+interface Rate {
+    val bitList: BitList
+
+    fun toDecimalNumber(): Int {
+        return bitList
+            .joinToString(separator = "") { it.toString() }
+            .toInt(2)
+    }
+}
+
 @JvmInline
-value class GammaRate(val bitList: BitList) {
+value class GammaRate(override val bitList: BitList): Rate {
     companion object {
         fun fromInput(input: List<BitList>): GammaRate {
             return input
@@ -64,6 +74,11 @@ value class EpsilonRate(val bitList: BitList) {
 
 fun solveDay03Part1(input: List<String>): Int {
     return input.map(String::toBitList)
+        .let(GammaRate::fromInput)
+        .let { gammaRate ->
+            gammaRate to EpsilonRate.fromGammaRate(gammaRate)
+        }
+//        .let { it.first * it.second }
         .let { -1 }
 }
 
