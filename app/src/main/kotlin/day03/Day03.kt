@@ -52,7 +52,7 @@ value class GammaRate(override val bitList: BitList): Rate {
     companion object {
         fun fromInput(input: List<BitList>): GammaRate {
             return input
-                .fold(List(5) { OccurrenceCounter() }) { acc, bitList ->
+                .fold(List(input.maxOf { it.size }) { OccurrenceCounter() }) { acc, bitList ->
                     acc.mapIndexed { index, counter ->
                         counter + bitList[index]
                     }
@@ -64,7 +64,7 @@ value class GammaRate(override val bitList: BitList): Rate {
 }
 
 @JvmInline
-value class EpsilonRate(val bitList: BitList) {
+value class EpsilonRate(override val bitList: BitList): Rate {
     companion object {
         fun fromGammaRate(gammaRate: GammaRate): EpsilonRate = EpsilonRate(
             gammaRate.bitList.flipBits()
