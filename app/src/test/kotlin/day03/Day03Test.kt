@@ -44,9 +44,22 @@ class Day03Test : FreeSpec({
             val expectedResult =
                 listOf(1, 0, 1, 0, 0)
 
-            val result = getGammaRate(input)
+            val actual = GammaRate.fromInput(input)
 
-            result shouldBe expectedResult
+            actual.bitList shouldBe expectedResult
+        }
+
+        "get epsilon rate from gamma rate" {
+            val input = GammaRate(
+                listOf(0, 0, 1, 1, 0)
+            )
+            val expectedResult = EpsilonRate(
+                listOf(1, 1, 0, 0, 1)
+            )
+
+            val actual = EpsilonRate.fromGammaRate(input)
+
+            actual shouldBe expectedResult
         }
     }
 })

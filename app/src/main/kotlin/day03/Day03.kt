@@ -11,7 +11,9 @@ fun main(args: Array<String>) {
     solve(day, input, ::solveDay03Part1, ::solveDay03Part2)
 }
 
-fun String.toListRepresentation(): List<Int> {
+typealias BitList = List<Int>
+
+fun String.toBitList(): BitList {
     return List(length) { this[it].digitToInt(2) }
 }
 
@@ -25,18 +27,43 @@ data class OccurrenceCounter(val zeros: Int = 0, val ones: Int = 0) {
     }
 }
 
-fun getGammaRate(input: List<List<Int>>): List<Int> {
-    return input
-        .fold(List(5) { OccurrenceCounter() }) { acc, bitList ->
-            acc.mapIndexed { index, counter ->
-                counter + bitList[index]
-            }
+fun BitList.flipBits(): BitList {
+    return this.map { bit ->
+        when (bit) {
+            0 -> 1
+            1 -> 0
+            else -> throw IllegalArgumentException()
         }
-        .map(OccurrenceCounter::mostCommonBit)
+    }
+}
+
+@JvmInline
+value class GammaRate(val bitList: BitList) {
+    companion object {
+        fun fromInput(input: List<BitList>): GammaRate {
+            return input
+                .fold(List(5) { OccurrenceCounter() }) { acc, bitList ->
+                    acc.mapIndexed { index, counter ->
+                        counter + bitList[index]
+                    }
+                }
+                .map(OccurrenceCounter::mostCommonBit)
+                .let { GammaRate(it) }
+        }
+    }
+}
+
+@JvmInline
+value class EpsilonRate(val bitList: BitList) {
+    companion object {
+        fun fromGammaRate(gammaRate: GammaRate): EpsilonRate = EpsilonRate(
+            gammaRate.bitList.flipBits()
+        )
+    }
 }
 
 fun solveDay03Part1(input: List<String>): Int {
-    return input.map(String::toListRepresentation)
+    return input.map(String::toBitList)
         .let { -1 }
 }
 
