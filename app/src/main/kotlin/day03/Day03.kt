@@ -78,8 +78,7 @@ fun solveDay03Part1(input: List<String>): Int {
         .let { gammaRate ->
             gammaRate to EpsilonRate.fromGammaRate(gammaRate)
         }
-//        .let { it.first * it.second }
-        .let { -1 }
+        .let { it.first.toDecimalNumber() * it.second.toDecimalNumber() }
 }
 
 fun solveDay03Part2(input: List<String>): Int {
