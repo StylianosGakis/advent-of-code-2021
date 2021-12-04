@@ -17,31 +17,41 @@ fun solveDay04Part1(input: List<String>): Int {
     val boards = Board.listFromInput(input)
 
     val (winningBoard, winningNumber) = findWinningBoardWithWinningNumber(winningNumbers, boards)
-    val finalScore = calculateFinalScore(winningBoard, winningNumber)
-    return finalScore
+    return winningBoard.calculateScore(winningNumber)
 }
 
-private fun findWinningBoardWithWinningNumber(
+private tailrec fun findWinningBoardWithWinningNumber(
     winningNumbers: WinningNumbers,
     boards: List<Board>,
 ): Pair<Board, Int> {
-    winningNumbers.numbers.forEach { winningNumber ->
-        boards.forEach { board ->
-            board.setMarkedNumber(winningNumber)
-        }
-        val wonBoard = boards.firstOrNull { board -> board.hasWon() }
-        if (wonBoard != null) return wonBoard to winningNumber
+    val winningNumber = winningNumbers.numbers.first()
+    boards.forEach { board ->
+        board.setMarkedNumber(winningNumber)
     }
-    throw NoSuchElementException("No board has won")
-}
-
-fun calculateFinalScore(winningBoard: Board, winningNumber: Int): Int {
-    val scoreSum = winningBoard
-        .getAllUnmarkedItems()
-        .sumOf(BoardItem::number)
-    return scoreSum * winningNumber
+    val wonBoard = boards.firstOrNull { board -> board.hasWon() }
+    if (wonBoard != null) return wonBoard to winningNumber
+    return findWinningBoardWithWinningNumber(winningNumbers.dropFirst(), boards)
 }
 
 fun solveDay04Part2(input: List<String>): Int {
-    TODO()
+    val winningNumbers = WinningNumbers.fromInput(input)
+    val boards = Board.listFromInput(input)
+
+    val (winningBoard, winningNumber) = findLastWinningBoardWithWinningNumber(winningNumbers, boards)
+    return winningBoard.calculateScore(winningNumber)
+}
+
+private tailrec fun findLastWinningBoardWithWinningNumber(
+    winningNumbers: WinningNumbers,
+    boards: List<Board>,
+): Pair<Board, Int> {
+    val winningNumber = winningNumbers.numbers.first()
+    boards.forEach { board ->
+        board.setMarkedNumber(winningNumber)
+    }
+    if (boards.size == 1 && boards.first().hasWon()) return boards.first() to winningNumber
+    val boardsWithoutTheWinningOnes = boards.filterNot { board -> board.hasWon() }
+    return findLastWinningBoardWithWinningNumber(
+        winningNumbers.dropFirst(), boardsWithoutTheWinningOnes
+    )
 }

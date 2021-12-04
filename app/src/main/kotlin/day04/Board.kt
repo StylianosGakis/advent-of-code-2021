@@ -1,10 +1,10 @@
 package day04
 
 @JvmInline
-value class Board(private val grid: List<List<BoardItem>>) {
+value class Board(override val grid: List<List<BoardItem>>) : Grid<BoardItem> {
     init { // Require squared board
         val height = grid.size
-        require(grid.all { it.size == height })
+        require(getAllRows().all { row -> row.size == height })
     }
 
     fun setMarkedNumber(winningNumber: Int) {
@@ -12,39 +12,24 @@ value class Board(private val grid: List<List<BoardItem>>) {
     }
 
     fun hasWon(): Boolean {
-        val gri = grid
         val hasWinningRow = getAllRows().any { it.all(BoardItem::marked) }
         val hasWinningColumn = getAllColumns().any { it.all(BoardItem::marked) }
         return hasWinningRow || hasWinningColumn
     }
 
-    fun getAllUnmarkedItems(): List<BoardItem> {
+    fun calculateScore(winningNumber: Int): Int {
+        val scoreSum = getAllUnmarkedItems().sumOf(BoardItem::number)
+        return scoreSum * winningNumber
+    }
+
+    private fun getAllUnmarkedItems(): List<BoardItem> {
         return grid
             .flatten()
             .filterNot(BoardItem::marked)
     }
 
-    fun findItemWithNumber(number: Int): BoardItem? {
-        val gri = grid
-        return gri.flatten().firstOrNull { it.number == number }
-    }
-
-    private fun getAllColumns(): List<List<BoardItem>> {
-        return getRow(0).indices.map { index ->
-            getColumn(index)
-        }
-    }
-
-    private fun getColumn(index: Int): List<BoardItem> {
-        return grid.map { it[index] }
-    }
-
-    private fun getAllRows(): List<List<BoardItem>> {
-        return grid
-    }
-
-    private fun getRow(index: Int): List<BoardItem> {
-        return grid[index]
+    private fun findItemWithNumber(number: Int): BoardItem? {
+        return grid.flatten().firstOrNull { it.number == number }
     }
 
     companion object {

@@ -29,11 +29,11 @@ class Day04Test : FreeSpec({
         "2  0 12  3  7",
     )
 
-    val inputPart2: List<String> = listOf()
+    val inputPart2: List<String> = inputPart1
 
     val sampleSolutionPart1: Int = 4512
 
-    val sampleSolutionPart2: Int = -1
+    val sampleSolutionPart2: Int = 1924
 
     "Solving day 4" - {
         "part 1 for the sample input should return the correct output" {
@@ -80,14 +80,6 @@ droppedLine
             val actualBoard = Board.listFromInput(input)
 
             actualBoard shouldBe expectedBoards
-        }
-
-        "can find specific items containing a number" {
-            val board = Board(
-                List(5) { y -> List(5) { x -> BoardItem(y * x) } }
-            )
-
-            board.findItemWithNumber(16) shouldBe BoardItem(16)
         }
     }
 })
