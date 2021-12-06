@@ -2,6 +2,7 @@ package day05
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 
 class Day05Test : FreeSpec({
@@ -19,11 +20,11 @@ class Day05Test : FreeSpec({
         "5,5 -> 8,2",
     )
 
-    val inputPart2: List<String> = listOf()
+    val inputPart2: List<String> = inputPart1
 
     val sampleSolutionPart1: Int = 5
 
-    val sampleSolutionPart2: Int = -1
+    val sampleSolutionPart2: Int = 12
 
     "Solving day 5" - {
         "part 1 for the sample input should return the correct output" {
@@ -58,7 +59,7 @@ class Day05Test : FreeSpec({
 
             val result = startPoint..endPoint
 
-            result shouldContainExactly expectedResult
+            result shouldContainExactlyInAnyOrder expectedResult
         }
 
         "Point range works vertically" {
@@ -70,7 +71,58 @@ class Day05Test : FreeSpec({
 
             val result = startPoint..endPoint
 
-            result shouldContainExactly expectedResult
+            result shouldContainExactlyInAnyOrder expectedResult
+        }
+
+        "Point range works diagonally" {
+            val startPoint = Point(0, 0)
+            val endPoint = Point(10, 10)
+            val expectedResult = List(11) { index ->
+                Point(index, index)
+            }
+
+            val result = startPoint..endPoint
+
+            result shouldContainExactlyInAnyOrder expectedResult
+        }
+
+        "Point range works diagonally going down and left" {
+            val startPoint = Point(10, 10)
+            val endPoint = Point(0, 0)
+            val expectedResult = List(11) { index ->
+                val newIndex = 10 - index
+                Point(newIndex, newIndex)
+            }
+
+            val result = (startPoint..endPoint)
+
+            result shouldContainExactlyInAnyOrder expectedResult
+        }
+
+        "Point range works diagonally going up and left" {
+            val startPoint = Point(10, 10)
+            val endPoint = Point(0, 0)
+            val expectedResult = List(11) { index ->
+                val newIndex = 10 - index
+                Point(newIndex, newIndex)
+            }
+
+            val result = (startPoint..endPoint)
+
+            result shouldContainExactlyInAnyOrder expectedResult
+        }
+
+        "Point range works diagonally going down and left" {
+            val startPoint = Point(8, 0)
+            val endPoint = Point(0, 8)
+            val expectedResult = List(9) { index ->
+                val goingDownIndex = 8 - index
+                Point(goingDownIndex, index)
+            }
+
+            val result = (startPoint..endPoint)
+
+            result shouldContainExactlyInAnyOrder expectedResult
         }
     }
 })

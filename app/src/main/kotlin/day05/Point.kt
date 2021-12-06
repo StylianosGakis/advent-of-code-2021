@@ -19,6 +19,21 @@ data class Point(val x: Int, val y: Int) {
             (startingIndex..endingIndex).map { x ->
                 Point(x, this.y)
             }
+        } else if (abs(x - end.x) == abs(y - end.y)) {
+            val start = this
+            val xRange = if (start.x < end.x) {
+                start.x..end.x
+            } else {
+                start.x downTo end.x
+            }
+            val yRange = if (start.y < end.y) {
+                start.y..end.y
+            } else {
+                start.y downTo end.y
+            }
+            (xRange zip yRange).map { (x, y) ->
+                Point(x, y)
+            }
         } else {
             emptyList()
         }

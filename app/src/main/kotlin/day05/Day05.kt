@@ -20,5 +20,8 @@ fun solveDay05Part1(input: List<String>): Int {
 }
 
 fun solveDay05Part2(input: List<String>): Int {
-    TODO()
+    val lines = Line.listFromInput(input)
+    val grid = CountGrid(lines.maxX(), lines.maxY())
+    grid.populateWithLines(lines)
+    return grid.calculatePoints()
 }
