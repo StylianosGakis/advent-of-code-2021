@@ -11,11 +11,14 @@ fun main(args: Array<String>) {
     solve(day, input, ::solveDay06Part1, ::solveDay06Part2)
 }
 
-
-fun solveDay06Part1(input: List<String>): Int {
-    TODO()
+fun solveDay06Part1(input: List<String>): Long {
+    return School
+        .advanceDays(School.fromInput(input), 80)
+        .totalNumberOfFish()
 }
 
-fun solveDay06Part2(input: List<String>): Int {
-    TODO()
+fun solveDay06Part2(input: List<String>): Long {
+    return School
+        .advanceDays(School.fromInput(input), 256)
+        .totalNumberOfFish()
 }
